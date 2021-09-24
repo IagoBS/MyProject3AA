@@ -10,7 +10,6 @@ class UBoxComponent;
 class UStaticMeshComponent;
 class UPrimitiveComponent;
 class AActor;
-class FHitResult;
 
 
 UCLASS()
@@ -41,9 +40,13 @@ protected:
 
 public:	
 	// Called every frame
+	// declare overlap begin function
 	UFUNCTION()
-	void OnOverLapBegin(UPrimitiveComponent* OnComponentBeginOverlap,  UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	void OnOverlapBegin( UPrimitiveComponent* OverlappedComp,  AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	// declare overlap end function
+	UFUNCTION()
+	void OnOverlapEnd( UPrimitiveComponent* OverlappedComp,  AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	virtual void Tick(float DeltaTime) override;
 
 };

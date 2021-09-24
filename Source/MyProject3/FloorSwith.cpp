@@ -13,10 +13,15 @@ AFloorSwith::AFloorSwith()
 	PrimaryActorTick.bCanEverTick = true;
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	RootComponent = TriggerBox;
-	TriggerBox->OnComponentBeginOverlap.addDynamic(this, &AFloorSwith::OnOverLapBegin);
+
+	TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+	TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	TriggerBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+ 
 
 	FloorSwith = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor Swith"));
-	FloorSwith->SetupAttachment(GetRootComponent();
+	FloorSwith->SetupAttachment(GetRootComponent());
 
 	Door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
 	Door->SetupAttachment(GetRootComponent());
@@ -29,13 +34,24 @@ AFloorSwith::AFloorSwith()
 void AFloorSwith::BeginPlay()
 {
 	Super::BeginPlay();
+	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AFloorSwith::OnOverlapBegin);
+	TriggerBox->OnComponentEndOverlap.AddDynamic(this, &AFloorSwith::OnOverlapEnd);
+
 	
 }
 
-void AFloorSwith::OnOverLapBegin(UPrimitiveComponent* OnComponentBeginOverlap,  UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) 
+void AFloorSwith::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,  AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {
 	
 }
+
+void AFloorSwith::OnOverlapEnd(UPrimitiveComponent* OverlappedComp,  AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
+{
+	
+}
+
+
+
 
 
 
