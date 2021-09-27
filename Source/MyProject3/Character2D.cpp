@@ -8,11 +8,14 @@
 #include "PaperCharacter.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ACharacter2D::ACharacter2D() 
 {
     PrimaryActorTick.bCanEverTick = true;
+
+
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(GetRootComponent());
@@ -24,7 +27,17 @@ ACharacter2D::ACharacter2D()
 	FollowCamera->bUsePawnControlRotation = true;
 
 	
-	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationRoll = false;
+
+	GetCapsuleComponent()->SetCapsuleSize(24.f, 75.f);
+
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.f, 0.f);
+	GetCharacterMovement()->JumpZVelocity = 650.f;
+	GetCharacterMovement()->AirControl = 0.2f;
 
     CurrentVelocity = FVector(0.f);
     MaxSpeed = 1000.f;
