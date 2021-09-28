@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "SpawnVolume.generated.h"
 class UBoxComponent;
+class AUCharacter;
 
 
 UCLASS()
@@ -20,8 +21,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawning")
 	UBoxComponent* SpawningBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spawning")
-	TSubclassOf<class ACritter> PawnToSpawn;
 
 protected:
 	// Called when the game starts or when spawned

@@ -31,8 +31,8 @@ FVector ASpawnVolume::GetSpawnPoint()
 {
 	FVector Extend = SpawningBox->GetScaledBoxExtent();
 	FVector Orign = SpawningBox->GetComponentLocation();
-	FVector Point = UKismetMathLibrary::RandomPointInBoundingBox(Orign, Extend);
-	return Point;
+	return UKismetMathLibrary::RandomPointInBoundingBox(Orign, Extend);
+
 	
 }
 
