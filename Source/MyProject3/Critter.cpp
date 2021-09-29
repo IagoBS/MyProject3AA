@@ -5,7 +5,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
-
+#include "Kismet/GameplayStatics.h"
 // Sets default values
 ACritter::ACritter()
 {
@@ -48,11 +48,7 @@ void ACritter::Fire()
 }
 
 
-void ACritter::HandleDestruction() 
-{
-	Destroy();
 
-}
 
 void ACritter::RotateTurrentFunction(FVector LookAtTarget) 
 {

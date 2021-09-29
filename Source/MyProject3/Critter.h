@@ -7,7 +7,8 @@
 #include "Critter.generated.h"
 
 class UCapsuleComponent;
-
+class USceneComponent;
+class UStaticMeshComponent;
 UCLASS()
 class MYPROJECT3_API ACritter : public APawn
 {
@@ -32,7 +33,7 @@ private:
 public:
 	// Sets default values for this pawn's properties
 	ACritter();
-	virtual void HandleDestruction();
+	
 
 protected:
 	void RotateTurrentFunction(FVector LookAtTarget);
