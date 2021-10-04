@@ -10,9 +10,12 @@ class USphereComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
 class ULightComponent;
-
+class UParticleSystemComponent;
+class UParticleSystem;
 class UPrimitiveComponent;
 class AActor;
+class USpotLightComponent;
+class ADirectionalLight;
 
 UCLASS()
 class MYPROJECT3_API AItem : public AActor
@@ -24,14 +27,27 @@ public:
 	AItem();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Collision | Item")
-	USphereComponent *CollisionVolume;;;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Item | Mesh")
-	UStaticMeshComponent* BaseMesh; 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Item | Particles");
-	UParticleSystemComponent* idleParticleComponent;
-	// UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Item | Light")
-	// ULightComponent* LightComponent;
+	USphereComponent *CollisionVolume;
+	;
+	;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item | Mesh")
+	UStaticMeshComponent *BaseMesh;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Item | Flashlight")
+	UStaticMeshComponent * FlashLight;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | Particles");
+	UParticleSystemComponent *idleParticleComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | Particles");
+	UParticleSystem* OverlapParticles;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item | Light")
+	USpotLightComponent *LightComponent;
+
+private:
 
 
 protected:
@@ -41,6 +57,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	// void AttachFlashLight(AActor* Player);
+
 	UFUNCTION()
 	virtual void OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 	UFUNCTION()
