@@ -41,6 +41,8 @@ ACharacter2D::ACharacter2D()
 
     CurrentVelocity = FVector(0.f);
     MaxSpeed = 1000.f;
+	
+
 }
 
 void ACharacter2D::BeginPlay() 
@@ -61,6 +63,12 @@ void ACharacter2D::SetupPlayerInputComponent(class UInputComponent *PlayerInputC
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ACharacter2D::MoveRight);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ACharacter::Jump);
+}
+
+void ACharacter2D::HandleDestruction() {
+ bIsPlayerAlive = false;
+ SetActorHiddenInGame(true);
+ SetActorTickEnabled(false);
 }
 
 void ACharacter2D::MoveForward(float Value) 

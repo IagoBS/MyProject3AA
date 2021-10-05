@@ -15,6 +15,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Particles/ParticleSystem.h"
+#include "Sound/SoundCue.h"
 // Sets default values
 AItem::AItem()
 {
@@ -55,16 +56,21 @@ void AItem::Tick(float DeltaTime)
 }
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
-	if(LightComponent) {
-	UGameplayStatics::SpawnEmitterAtLocation(GetOwner(), OverlapParticles, GetActorLocation(), FRotator(0.f), true);
+	 
+	if(OverlapParticles) {
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OverlapParticles, GetActorLocation(), FRotator(0.f), true);
 	}
-	
-	
+	if(SoundCue) {
+		UGameplayStatics::PlaySound2D(this, SoundCue);
+	}
+	Destroy();
+
 	
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
 {
+
 }
 
 // void AItem::AttachFlashLight(AActor* Player) {

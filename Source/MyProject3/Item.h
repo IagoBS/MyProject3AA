@@ -16,6 +16,7 @@ class UPrimitiveComponent;
 class AActor;
 class USpotLightComponent;
 class ADirectionalLight;
+class USoundCue;
 
 UCLASS()
 class MYPROJECT3_API AItem : public AActor
@@ -46,6 +47,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item | Light")
 	USpotLightComponent *LightComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item | Sound")
+	USoundCue* SoundCue;
+	
 
 private:
 

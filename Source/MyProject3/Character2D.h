@@ -29,6 +29,10 @@ class MYPROJECT3_API ACharacter2D : public APaperCharacter
 	float MaxSpeed;
 
 	bool bIsPlayerAlive = true;
+	
+	
+
+	
 
 	protected: 
 	virtual void BeginPlay() override;
@@ -37,6 +41,7 @@ class MYPROJECT3_API ACharacter2D : public APaperCharacter
 	public:
 	virtual void Tick(float DeltaSeconds);
 	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
+	virtual void HandleDestruction() override;
 
 
 	private:
