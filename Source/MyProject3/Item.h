@@ -17,7 +17,7 @@ class AActor;
 class USpotLightComponent;
 class ADirectionalLight;
 class USoundCue;
-
+class ACharacter2D;
 UCLASS()
 class MYPROJECT3_API AItem : public AActor
 {
@@ -53,6 +53,8 @@ public:
 	
 
 private:
+	UPROPERTY(EditAnywhere, Category = "Item | 2d")
+	ACharacter2D* Character2D;
 
 
 protected:

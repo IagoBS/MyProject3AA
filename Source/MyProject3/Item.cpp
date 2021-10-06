@@ -14,8 +14,10 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "GameFramework/DamageType.h"
 #include "Particles/ParticleSystem.h"
 #include "Sound/SoundCue.h"
+#include "Character2D.h"
 // Sets default values
 AItem::AItem()
 {
@@ -38,7 +40,10 @@ AItem::AItem()
 	LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
 	LightComponent->SetupAttachment(BaseMesh);
 
+
+
 }
+
 
 // Called when the game starts or when spawned
 void AItem::BeginPlay()
@@ -56,14 +61,14 @@ void AItem::Tick(float DeltaTime)
 }
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
-	 
-	if(OverlapParticles) {
+	
+	if(LightComponent) {
+		UE_LOG(LogTemp, Error,TEXT("A luz está acesa"));
+		
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OverlapParticles, GetActorLocation(), FRotator(0.f), true);
 	}
-	if(SoundCue) {
-		UGameplayStatics::PlaySound2D(this, SoundCue);
-	}
-	Destroy();
+	
+
 
 	
 }
@@ -73,9 +78,18 @@ void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor
 
 }
 
-// void AItem::AttachFlashLight(AActor* Player) {
-// 	this->SetActorLocation(Player->GetActorLocation());
-// 	this->AttachToActor(Player, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-// 	UE_LOG(LogTemp, Warning, TEXT("Spawning FlashLight"));
-
+// void AItem::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
+// {
+// 	AActor* MyOwner = GetOwner();
+// 	if(!MyOwner) {
+// 		return;
+// 	}
+// 	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
+// 	{
+// 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
+// 		// UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation());
+// 		// UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
+// 		// GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(HitShake);
+// 		Destroy();
+// 	}
 // }

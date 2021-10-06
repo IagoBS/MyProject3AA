@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+class AMyProject3GameModeBase;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYPROJECT3_API UHealthComponent : public UActorComponent
@@ -13,9 +14,11 @@ class MYPROJECT3_API UHealthComponent : public UActorComponent
 	GENERATED_BODY()
 
 private:
-UPROPERTY(EditAnywhere)
+UPROPERTY(EditAnywhere, Category="Health")
 float DefaultHealth = 100.0f;
+UPROPERTY(EditAnywhere, Category="Health")
 float Health = 0.0f;
+AMyProject3GameModeBase* GameModeRef;
 
 
 public:	

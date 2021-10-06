@@ -1,22 +1,28 @@
 #include "MainPlayerController.h"
-#include "Blueprint/UserWidget.h"
 
+
+#include "Components/SlateWrapperTypes.h"
+#include "Blueprint/UserWidget.h"
+#include "GameFramework/Actor.h"
 void AMainPlayerController::BeginPlay() {
+
 Super::BeginPlay();
+
 if(HUDOverlayAsset) {
     HUDOverlay = CreateWidget<UUserWidget>(this, HUDOverlayAsset);
 }
+
 HUDOverlay->AddToViewport();
 HUDOverlay->SetVisibility(ESlateVisibility::Visible);
 
 }
 
-void AMainPlayerController::SetPlayerEnable(bool SetPlayerEnable) 
+void AMainPlayerController::SetPlayerEnabledState(bool SetPlayerEnable) 
 {
     if(SetPlayerEnable) {
-        GetPawn()->EnableInput(this);
+        AActor::EnableInput(this);
     } else {
-        GetPawn()->DisableInput(this);
+        AActor::DisableInput(this);
     }
-    bShowMouseCursor = SetPlayerEnabled;
+    bShowMouseCursor = SetPlayerEnable;
 }

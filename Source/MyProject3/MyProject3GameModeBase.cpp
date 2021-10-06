@@ -18,7 +18,7 @@ void AMyProject3GameModeBase::ActorDied(AActor* DeadActor) {
         PlayerCharacter2D->HandleDestruction();
         HandleGamerOver(false);
         if(PlayerControllerRef) {
-            PlayerControllerRef->SetPlayerEnable(false);
+            PlayerControllerRef->SetPlayerEnabledState(false);
         }
     } 
 }
@@ -29,9 +29,9 @@ PlayerControllerRef = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerCon
 GameStart();
 
 if(PlayerControllerRef) {
-    PlayerControllerRef->SetPlayerEnable(true);
+    PlayerControllerRef->SetPlayerEnabledState(true);
     FTimerHandle PlayerTimerHandler;
-    FTimerDelegate PlayerEnableDelegate = FTimerDelegate::CreateUObject(PlayerControllerRef, &AMainPlayerController::SetPlayerEnable, true);
+    FTimerDelegate PlayerEnableDelegate = FTimerDelegate::CreateUObject(PlayerControllerRef, &AMainPlayerController::SetPlayerEnabledState, true);
     GetWorld()->GetTimerManager().SetTimer(PlayerTimerHandler, PlayerEnableDelegate, StartDelay, false);
 }
 

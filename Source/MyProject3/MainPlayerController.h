@@ -22,13 +22,14 @@ class MYPROJECT3_API AMainPlayerController : public APlayerController
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Controller | HUD")
 	UUserWidget* HUDOverlay;
 
-	void SetPlayerEnableState(bool SetPlayerEnable);
 	
 
 	protected: 
 	virtual void BeginPlay() override;
 
-
+	public:
+	
+	void SetPlayerEnabledState(bool SetPlayerEnable);
 
 
 

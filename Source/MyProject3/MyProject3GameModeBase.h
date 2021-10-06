@@ -19,9 +19,11 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	private:
 	ACharacter2D* PlayerCharacter2D;
-	int32 Target = 0;
-	int32 GetTargetCount();
+	// int32 Target = 0;
+
+	// int32 GetTargetCount();
 	AMainPlayerController* PlayerControllerRef;
+
 	void HandleGameStart();
 	void HandleGamerOver(bool PlayerWon);
 
@@ -29,14 +31,16 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 	void ActorDied(AActor* DeadActor);
 
 	protected:
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Game Loop")
-	int32 StartDelay = 3;
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Game Loop")
+	int32 StartDelay = 3;
+
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameStart();
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameOver(bool PlayerWon);
 

@@ -41,7 +41,7 @@ class MYPROJECT3_API ACharacter2D : public APaperCharacter
 	public:
 	virtual void Tick(float DeltaSeconds);
 	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
-	virtual void HandleDestruction() override;
+	void HandleDestruction() ;
 
 
 	private:

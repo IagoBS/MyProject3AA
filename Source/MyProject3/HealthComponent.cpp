@@ -2,7 +2,7 @@
 
 
 #include "HealthComponent.h"
-
+#include "MyProject3GameModeBase.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
