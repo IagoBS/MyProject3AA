@@ -5,6 +5,7 @@
 #include "MainPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Character2D.h"
+#include "Item.h"
 
 void AMyProject3GameModeBase::BeginPlay() {
     Super::BeginPlay();
@@ -20,7 +21,11 @@ void AMyProject3GameModeBase::ActorDied(AActor* DeadActor) {
         if(PlayerControllerRef) {
             PlayerControllerRef->SetPlayerEnabledState(false);
         }
-    } 
+    } else if(AItem* DestructionActor = Cast<AItem>(DeadActor)) {
+        UE_LOG(LogTemp, Error, TEXT("Testando se ator morreu, tente novamente"));
+        HandleGamerOver(true);
+        
+    }
 }
 
 void AMyProject3GameModeBase::HandleGameStart() {

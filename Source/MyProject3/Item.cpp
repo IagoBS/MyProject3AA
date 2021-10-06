@@ -30,9 +30,9 @@ AItem::AItem()
 
 	CollisionVolume = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionVolume"));
 	RootComponent = CollisionVolume;
+	CollisionVolume->OnComponentHit.AddDynamic(this, &AItem::OnHit);
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
-	BaseMesh->OnComponentHit.AddDynamic(this, &AItem::OnHit);
 	BaseMesh->SetupAttachment(GetRootComponent());
 
 
@@ -44,7 +44,7 @@ AItem::AItem()
 
 	LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
 	LightComponent->SetupAttachment(BaseMesh);
-
+	
 }
 
 
@@ -65,15 +65,7 @@ void AItem::Tick(float DeltaTime)
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 
-	if(!MyCharacter2D || !MyCharacter2D->GetIsPlayerAlive()) {
-		return;
-	}
 	
-	if(LightComponent) {
-		UE_LOG(LogTemp, Error,TEXT("A luz está acesa"));
-		
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OverlapParticles, GetActorLocation(), FRotator(0.f), true);
-	}
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
@@ -91,6 +83,5 @@ void AItem::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveCo
 	{
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
 		
-		Destroy();
 	}
 }
