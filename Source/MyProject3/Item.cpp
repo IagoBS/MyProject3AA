@@ -18,6 +18,10 @@
 #include "Particles/ParticleSystem.h"
 #include "Sound/SoundCue.h"
 #include "Character2D.h"
+#include "MyProject3GameModeBase.h"
+#include "Particles/ParticleSystem.h"
+#include "Sound/SoundBase.h"
+	
 // Sets default values
 AItem::AItem()
 {
@@ -28,6 +32,7 @@ AItem::AItem()
 	RootComponent = CollisionVolume;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
+	BaseMesh->OnComponentHit.AddDynamic(this, &AItem::OnHit);
 	BaseMesh->SetupAttachment(GetRootComponent());
 
 
@@ -40,12 +45,10 @@ AItem::AItem()
 	LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
 	LightComponent->SetupAttachment(BaseMesh);
 
-
-
 }
 
 
-// Called when the game starts or when spawned
+
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
@@ -61,16 +64,16 @@ void AItem::Tick(float DeltaTime)
 }
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
+
+	if(!MyCharacter2D || !MyCharacter2D->GetIsPlayerAlive()) {
+		return;
+	}
 	
 	if(LightComponent) {
 		UE_LOG(LogTemp, Error,TEXT("A luz está acesa"));
 		
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OverlapParticles, GetActorLocation(), FRotator(0.f), true);
 	}
-	
-
-
-	
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
@@ -78,18 +81,16 @@ void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor
 
 }
 
-// void AItem::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
-// {
-// 	AActor* MyOwner = GetOwner();
-// 	if(!MyOwner) {
-// 		return;
-// 	}
-// 	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
-// 	{
-// 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-// 		// UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation());
-// 		// UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
-// 		// GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(HitShake);
-// 		Destroy();
-// 	}
-// }
+void AItem::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
+{
+	AActor* MyOwner = GetOwner();
+	if(!MyOwner) {
+		return;
+	}
+	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
+	{
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
+		
+		Destroy();
+	}
+}

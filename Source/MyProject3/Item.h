@@ -18,6 +18,9 @@ class USpotLightComponent;
 class ADirectionalLight;
 class USoundCue;
 class ACharacter2D;
+class UParticleSystem;
+class USoundBase;
+
 UCLASS()
 class MYPROJECT3_API AItem : public AActor
 {
@@ -53,9 +56,23 @@ public:
 	
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Item | 2d")
-	ACharacter2D* Character2D;
+UPROPERTY(EditAnywhere, Category = "Item | Character")
+	ACharacter2D* MyCharacter2D;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TSubclassOf<UDamageType> DamageType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
+	float Damage = 100.0f;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem *ImpactEffect;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase *ImpactSound;
+
+UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
 	// Called when the game starts or when spawned

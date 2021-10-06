@@ -28,8 +28,6 @@ class MYPROJECT3_API ACharacter2D : public APaperCharacter
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed;
 
-	bool bIsPlayerAlive = true;
-	
 	
 
 	
@@ -49,9 +47,9 @@ class MYPROJECT3_API ACharacter2D : public APaperCharacter
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	FVector CurrentVelocity;
-	public:
 
+	public: 	
+	bool bIsPlayerAlive = true;
 	bool GetIsPlayerAlive();
-
 	
 };

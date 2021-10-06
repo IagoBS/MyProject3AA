@@ -80,11 +80,10 @@ void ACharacter2D::MoveRight(float Value)
 {
 	 CurrentVelocity.X = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;	
 }
+bool ACharacter2D::GetIsPlayerAlive() {
+	return bIsPlayerAlive;
 
-
-bool ACharacter2D::GetIsPlayerAlive() 
-{
-	 return bIsPlayerAlive;
 }
+
 
 
