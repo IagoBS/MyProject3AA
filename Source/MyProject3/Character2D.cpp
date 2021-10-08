@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "HealthComponent.h"
 
 ACharacter2D::ACharacter2D() 
 {
@@ -26,7 +27,9 @@ ACharacter2D::ACharacter2D()
 	FollowCamera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = true;
 
-	
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
+
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
@@ -58,6 +61,7 @@ void ACharacter2D::Tick(float DeltaSeconds)
     SetActorLocation(NewLocation);
 }
 
+
 void ACharacter2D::SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) 
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -65,11 +69,6 @@ void ACharacter2D::SetupPlayerInputComponent(class UInputComponent *PlayerInputC
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ACharacter::Jump);
 }
 
-void ACharacter2D::HandleDestruction() {
- bIsPlayerAlive = false;
- SetActorHiddenInGame(true);
- SetActorTickEnabled(false);
-}
 
 void ACharacter2D::MoveForward(float Value) 
 {
@@ -85,5 +84,11 @@ bool ACharacter2D::GetIsPlayerAlive() {
 
 }
 
+
+void ACharacter2D::HandleDestruction() {
+ bIsPlayerAlive = false;
+ SetActorHiddenInGame(true);
+ SetActorTickEnabled(false);
+}
 
 

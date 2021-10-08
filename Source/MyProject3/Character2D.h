@@ -12,44 +12,46 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UInputComponent;
+class UHealthComponent;
+class USceneComponent;
+class AProjectilBase;
+
 UCLASS()
 class MYPROJECT3_API ACharacter2D : public APaperCharacter
 {
 	GENERATED_BODY()
-	public: 
+public:
 	ACharacter2D();
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= Camera)
-	USpringArmComponent* SpringArm;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	UCameraComponent* FollowCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	USpringArmComponent *SpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	UCameraComponent *FollowCamera;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed;
 
-	
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USceneComponent *ProjectileSpawnPoint;
 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UHealthComponent *HealthComponent;
 
-	protected: 
+
+protected:
 	virtual void BeginPlay() override;
-
-
-	public:
+public:
 	virtual void Tick(float DeltaSeconds);
 	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
-	void HandleDestruction() ;
+	void HandleDestruction();
 
-
-	private:
-
+private:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	FVector CurrentVelocity;
 
-	public: 	
+public:
 	bool bIsPlayerAlive = true;
 	bool GetIsPlayerAlive();
-	
 };

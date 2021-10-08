@@ -21,7 +21,8 @@
 #include "MyProject3GameModeBase.h"
 #include "Particles/ParticleSystem.h"
 #include "Sound/SoundBase.h"
-	
+#include "HealthComponent.h"
+#include "MyProject3GameModeBase.h"
 // Sets default values
 AItem::AItem()
 {
@@ -35,19 +36,15 @@ AItem::AItem()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	BaseMesh->SetupAttachment(GetRootComponent());
 
-
 	FlashLight = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(BaseMesh);
-	
+
 	idleParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle"));
 	idleParticleComponent->SetupAttachment(GetRootComponent());
 
 	LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
 	LightComponent->SetupAttachment(BaseMesh);
-	
 }
-
-
 
 void AItem::BeginPlay()
 {
@@ -65,23 +62,31 @@ void AItem::Tick(float DeltaTime)
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 
-	
+	if (OtherActor && LightComponent)
+	{
+		MyCharacter2D = Cast<ACharacter2D>(OtherActor);
+		if (MyCharacter2D)
+		{
+			MyCharacter2D->bIsPlayerAlive = false;
+			UGameplayStatics::ApplyDamage(OtherActor, Damage, MyCharacter2D->GetInstigatorController(), this, DamageType);
+			MyCharacter2D->HandleDestruction();
+		}
+	}
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
 {
-
 }
 
-void AItem::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
+void AItem::OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
 {
-	AActor* MyOwner = GetOwner();
-	if(!MyOwner) {
+	AActor *MyOwner = GetOwner();
+	if (!MyOwner)
+	{
 		return;
 	}
 	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
 	{
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-		
 	}
 }
