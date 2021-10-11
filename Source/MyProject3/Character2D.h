@@ -16,6 +16,9 @@ class UHealthComponent;
 class USceneComponent;
 class AProjectilBase;
 
+class AMainPlayerController;
+
+
 UCLASS()
 class MYPROJECT3_API ACharacter2D : public APaperCharacter
 {
@@ -31,13 +34,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed;
 
-private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent *ProjectileSpawnPoint;
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AProjectilBase> ProjectileClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent *HealthComponent;
-
+	
+	AMainPlayerController* PlayerControllerRef;
 
 protected:
 	virtual void BeginPlay() override;
@@ -54,4 +61,8 @@ private:
 public:
 	bool bIsPlayerAlive = true;
 	bool GetIsPlayerAlive();
+	protected:
+	
+	void Fire();
+
 };

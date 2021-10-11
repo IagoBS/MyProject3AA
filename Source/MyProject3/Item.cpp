@@ -16,13 +16,13 @@
 #include "Engine/World.h"
 #include "GameFramework/DamageType.h"
 #include "Particles/ParticleSystem.h"
-#include "Sound/SoundCue.h"
-#include "Character2D.h"
-#include "MyProject3GameModeBase.h"
-#include "Particles/ParticleSystem.h"
+
 #include "Sound/SoundBase.h"
+#include "Particles/ParticleSystem.h"
+#include "MyProject3GameModeBase.h"
 #include "HealthComponent.h"
 #include "MyProject3GameModeBase.h"
+#include "Character2D.h"
 // Sets default values
 AItem::AItem()
 {
@@ -31,19 +31,19 @@ AItem::AItem()
 
 	CollisionVolume = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionVolume"));
 	RootComponent = CollisionVolume;
-	CollisionVolume->OnComponentHit.AddDynamic(this, &AItem::OnHit);
+
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	BaseMesh->SetupAttachment(GetRootComponent());
 
-	FlashLight = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FlashLight"));
-	FlashLight->SetupAttachment(BaseMesh);
+
 
 	idleParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle"));
 	idleParticleComponent->SetupAttachment(GetRootComponent());
 
-	LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
-	LightComponent->SetupAttachment(BaseMesh);
+	bRotate = false;
+	RotationRate = 45.f;
+
 }
 
 void AItem::BeginPlay()
@@ -58,35 +58,20 @@ void AItem::BeginPlay()
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (bRotate)
+	{
+		FRotator Rotation = GetActorRotation();
+		Rotation.Yaw += DeltaTime * RotationRate;
+		SetActorRotation(Rotation);
+	}
 }
 void AItem::OnOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 
-	if (OtherActor && LightComponent)
-	{
-		MyCharacter2D = Cast<ACharacter2D>(OtherActor);
-		if (MyCharacter2D)
-		{
-			MyCharacter2D->bIsPlayerAlive = false;
-			UGameplayStatics::ApplyDamage(OtherActor, Damage, MyCharacter2D->GetInstigatorController(), this, DamageType);
-			MyCharacter2D->HandleDestruction();
-		}
-	}
+	
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
 {
 }
 
-void AItem::OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
-{
-	AActor *MyOwner = GetOwner();
-	if (!MyOwner)
-	{
-		return;
-	}
-	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
-	{
-		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-	}
-}

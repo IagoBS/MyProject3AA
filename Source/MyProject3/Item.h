@@ -36,8 +36,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item | Mesh")
 	UStaticMeshComponent *BaseMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item | Flashlight")
-	UStaticMeshComponent *FlashLight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | ItemProperties")
+	bool bRotate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | ItemProperties")
+	float RotationRate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | Particles");
 	UParticleSystemComponent *idleParticleComponent;
@@ -45,36 +48,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item | Particles");
 	UParticleSystem *OverlapParticles;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item | Light")
-	USpotLightComponent *LightComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item | Sound")
-	USoundCue *SoundCue;
-
-private:
-	UPROPERTY(EditAnywhere, Category = "Item | Character")
-	ACharacter2D *MyCharacter2D;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-	TSubclassOf<UDamageType> DamageType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
-	float Damage = 100.0f;
-
-	UPROPERTY(EditAnywhere)
-	UParticleSystem *ImpactEffect;
-
-	UPROPERTY(EditAnywhere)
-	USoundBase *ImpactSound;
-
-	AMyProject3GameModeBase* GameModeRef;
-
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit);
-
-public:
-	void DecrementHealth(float Demout);
-	void Died();
 
 protected:
 	// Called when the game starts or when spawned
