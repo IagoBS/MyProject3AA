@@ -13,6 +13,7 @@
 #include "MainPlayerController.h"
 #include "Components/CapsuleComponent.h"
 #include "ProjectilBase.h"
+#include "Weapon.h"
 ACharacter2D::ACharacter2D()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -70,7 +71,10 @@ void ACharacter2D::SetupPlayerInputComponent(class UInputComponent *PlayerInputC
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ACharacter2D::MoveRight);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ACharacter2D::Fire);
+
+	PlayerInputComponent->BindAction(TEXT("LMB"), IE_Pressed, this, &ACharacter2D::LMBDown);
+	PlayerInputComponent->BindAction(TEXT("LMB"), IE_Released, this, &ACharacter2D::LMBUp);
+
 }
 
 void ACharacter2D::MoveForward(float Value)
@@ -93,13 +97,24 @@ void ACharacter2D::HandleDestruction()
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
 }
-void ACharacter2D::Fire()
+
+void ACharacter2D::LMBUp() 
 {
-	if (ProjectileClass)
-	{
-		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
-		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
-		AProjectilBase *TempProjectile = GetWorld()->SpawnActor<AProjectilBase>(ProjectileClass, SpawnLocation, SpawnRotation);
-		TempProjectile->SetOwner(this);
+	bLMBDown = false;
+	
+
+}
+
+void ACharacter2D::LMBDown() 
+{
+
+	bLMBDown = true;
+	
+	if(ActiveOverlappingItem) {
+		AWeapon* Weapon = Cast<AWeapon>(ActiveOverlappingItem);
+		Weapon->Equip(this);
+		SetEquippedOverlapingItem(nullptr);
+
 	}
+
 }

@@ -15,9 +15,10 @@ class UInputComponent;
 class UHealthComponent;
 class USceneComponent;
 class AProjectilBase;
-
+class AWeapon;
 class AMainPlayerController;
-
+class AItem;
+class PAPER2UPaperFlipbookComponent;
 
 UCLASS()
 class MYPROJECT3_API ACharacter2D : public APaperCharacter
@@ -36,6 +37,22 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent *ProjectileSpawnPoint;
+
+
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Weapon")
+	AWeapon* EquipedWeapon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
+	AItem* ActiveOverlappingItem;
+
+
+
+	FORCEINLINE void SetEquippedWeapon(AWeapon* WeaponToSet) { EquipedWeapon = WeaponToSet;}
+	FORCEINLINE void SetEquippedOverlapingItem(AItem* ItemToSet) { ActiveOverlappingItem = ItemToSet;}
+
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
@@ -51,6 +68,14 @@ protected:
 public:
 	virtual void Tick(float DeltaSeconds);
 	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
+
+	//pegar arma
+	bool LMBbShiftKeyDown = false;
+	bool bLMBDown = false;
+	void LMBDown();
+	void LMBUp();
+	
+	//Destruir ator
 	void HandleDestruction();
 
 private:
@@ -61,8 +86,10 @@ private:
 public:
 	bool bIsPlayerAlive = true;
 	bool GetIsPlayerAlive();
-	protected:
+
 	
-	void Fire();
+
+
+	
 
 };
