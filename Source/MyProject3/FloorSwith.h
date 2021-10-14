@@ -10,7 +10,7 @@ class UBoxComponent;
 class UStaticMeshComponent;
 class UPrimitiveComponent;
 class AActor;
-
+class FSphere;
 UCLASS()
 class MYPROJECT3_API AFloorSwith : public AActor
 {
@@ -44,6 +44,8 @@ public:
 	bool bCharacterOnSwith;
 	
 	void CloseDoor();
+
+	
 
 protected:
 	// Called when the game starts or when spawned

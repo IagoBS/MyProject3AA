@@ -14,6 +14,7 @@
 #include "Components/CapsuleComponent.h"
 #include "ProjectilBase.h"
 #include "Weapon.h"
+#include "Engine/World.h"
 ACharacter2D::ACharacter2D()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,10 +28,14 @@ ACharacter2D::ACharacter2D()
 	FollowCamera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = true;
 
-	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
-	ProjectileSpawnPoint->SetupAttachment(GetCapsuleComponent());
+
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
+	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
+	ProjectileSpawnPoint->SetupAttachment(FollowCamera);
+
+
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
@@ -100,21 +105,19 @@ void ACharacter2D::HandleDestruction()
 
 void ACharacter2D::LMBUp() 
 {
-	bLMBDown = false;
-	
+	bHasCombatTarget = true;
+	UE_LOG(LogTemp, Error, TEXT("Fogo neles!!"));
+if(ProjectileClass && bHasCombatTarget) {
+	FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
+	FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
+	AProjectilBase* TemProjectile = GetWorld()->SpawnActor<AProjectilBase>(ProjectileClass, SpawnLocation, SpawnRotation);
+	TemProjectile->SetOwner(this);
+}
 
 }
 
 void ACharacter2D::LMBDown() 
 {
-
-	bLMBDown = true;
-	
-	if(ActiveOverlappingItem) {
-		AWeapon* Weapon = Cast<AWeapon>(ActiveOverlappingItem);
-		Weapon->Equip(this);
-		SetEquippedOverlapingItem(nullptr);
-
-	}
+bHasCombatTarget = false;
 
 }

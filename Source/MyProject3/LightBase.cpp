@@ -15,6 +15,9 @@ ALightBase::ALightBase()
         LightComponent = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light"));
 	    LightComponent->SetupAttachment(BaseMesh);
 
+
+	SwitchTime	 = 10.f;
+	bCharacterOnSwith = true;
 }
 
 void ALightBase::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) 
@@ -34,4 +37,24 @@ void ALightBase::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor
 void ALightBase::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
 {
     
+}
+void ALightBase::OnLight() {
+	if(!bCharacterOnSwith) {
+	RaiseLight();
+	FloowSwith();
+	ToggleLight();
+	};
+
+}
+void ALightBase::OffLight() {
+if(!bCharacterOnSwith) bCharacterOnSwith = true;
+	ToggleLight();
+	LowerLight();
+	LowerFloor();	
+	GetWorldTimerManager().SetTimer(SwithHandle, this, &ALightBase::OnLight, SwitchTime );
+
+}
+
+void ALightBase::ToggleLight() {
+LightComponent->ToggleVisibility();
 }

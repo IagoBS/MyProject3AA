@@ -8,12 +8,27 @@
 
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
+class UBoxComponent;
+
+UENUM(BlueprintType)
+enum class EProjectilBase : uint8
+{
+	EWS_Light UMETA(DisplayName = "Light"),
+	EWS_Ennemy UMETA(DisplayName = "Ennemy"),
+	EWS_Projectil UMETA(DisplayName = "None"),
+};
 
 UCLASS()
 class MYPROJECT3_API AProjectilBase : public AActor
 {
 	GENERATED_BODY()
+	public: 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Projectil State")	
+	EProjectilBase ProjectilState;
+
+
 	private:
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectilMoviment;
 
@@ -26,6 +41,8 @@ class MYPROJECT3_API AProjectilBase : public AActor
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	TSubclassOf<UMatineeCameraShake> HitShake;
+
+	
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -42,3 +59,4 @@ public:
 	
 
 };
+ 

@@ -15,7 +15,6 @@ class UInputComponent;
 class UHealthComponent;
 class USceneComponent;
 class AProjectilBase;
-class AWeapon;
 class AMainPlayerController;
 class AItem;
 class PAPER2UPaperFlipbookComponent;
@@ -32,36 +31,30 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	UCameraComponent *FollowCamera;
 
+
+
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Projectil")
+	bool bHasCombatTarget;
+
+	FORCEINLINE void SetHasCombatTarget(bool HasTarget) { bHasCombatTarget = HasTarget; }
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Movement")
+	FVector CombatTargetLocation;
+
+	AMainPlayerController* PlayerControllerRef;
+private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent *ProjectileSpawnPoint;
-
-
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Weapon")
-	AWeapon* EquipedWeapon;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Components")
-	AItem* ActiveOverlappingItem;
-
-
-
-	FORCEINLINE void SetEquippedWeapon(AWeapon* WeaponToSet) { EquipedWeapon = WeaponToSet;}
-	FORCEINLINE void SetEquippedOverlapingItem(AItem* ItemToSet) { ActiveOverlappingItem = ItemToSet;}
-
-
-private:
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AProjectilBase> ProjectileClass;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent *HealthComponent;
 	
-	AMainPlayerController* PlayerControllerRef;
 
 protected:
 	virtual void BeginPlay() override;
@@ -70,8 +63,6 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
 
 	//pegar arma
-	bool LMBbShiftKeyDown = false;
-	bool bLMBDown = false;
 	void LMBDown();
 	void LMBUp();
 	
@@ -86,7 +77,7 @@ private:
 public:
 	bool bIsPlayerAlive = true;
 	bool GetIsPlayerAlive();
-
+	
 	
 
 

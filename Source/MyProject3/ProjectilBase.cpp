@@ -6,6 +6,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/BoxComponent.h"
+#include "LightBase.h"
 // Sets default values
 AProjectilBase::AProjectilBase()
 {
@@ -13,8 +15,10 @@ AProjectilBase::AProjectilBase()
 	PrimaryActorTick.bCanEverTick = false;
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Projectil Mesh"));
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectilBase::OnHit);
-
 	RootComponent = ProjectileMesh;
+
+
+	ProjectilState = EProjectilBase::EWS_Projectil;
 
 	ProjectilMoviment = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Project Movement"));
 
@@ -28,9 +32,12 @@ AProjectilBase::AProjectilBase()
 // Called when the game starts or when spawned
 void AProjectilBase::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
 	
+
 }
+
+
 
 
 
@@ -38,15 +45,13 @@ void AProjectilBase::BeginPlay()
 void AProjectilBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
 {
 	AActor* MyOwner = GetOwner();
-
-	if (!MyOwner)
-	{
+	if(!MyOwner) {
 		return;
 	}
-
-	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
-	{
-
-	Destroy();
+	if(OtherActor && OtherActor != this && OtherActor != MyOwner) {
+		ALightBase* LightBase = Cast<ALightBase>(OtherActor);
+		if(LightBase && LightBase->LightComponent) {
+			LightBase->OffLight();
+		}
 	}
 }

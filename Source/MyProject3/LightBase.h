@@ -11,6 +11,7 @@
  */
 class UStaticMeshComponent;
 class USpotLightComponent;
+class FSphere;
 
 UCLASS()
 class MYPROJECT3_API ALightBase : public AItem
@@ -26,6 +27,36 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Item | Flashlight")
 	UStaticMeshComponent *FlashLight;
 
+
+	UPROPERTY(EditAnywhere, Category="Floor Switch")
+	float SwitchTime;
+	bool bCharacterOnSwith;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Swith")
+	void RaiseLight();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Swith")
+	void LowerLight();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Swith")
+	void FloowSwith();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Floor Swith")
+	void LowerFloor();
+
+
+	FTimerHandle SwithHandle;
+
+	void OnLight();
+	void OffLight();
+
+
+
+
+	UFUNCTION(BlueprintCallable, Category = "Light Switch")
+	void ToggleLight();
+
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "Item | Character")
 	ACharacter2D *MyCharacter2D;

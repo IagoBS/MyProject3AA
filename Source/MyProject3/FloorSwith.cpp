@@ -30,7 +30,7 @@ AFloorSwith::AFloorSwith()
 	Door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
 	Door->SetupAttachment(GetRootComponent());
 
-	SwitchTime	 = 2.f;
+	SwitchTime	 = 5.f;
 	bCharacterOnSwith = false;
 
 
@@ -97,5 +97,9 @@ void AFloorSwith::UpdateLocation(float Z)
 	NewLocation.Z += Z;
 	FloorSwith->SetWorldLocation(NewLocation);	
 }
+
+
+
+
 
 

@@ -28,8 +28,11 @@ AWeapon::AWeapon()
 
 void AWeapon::BeginPlay() 
 {
-    // CombatCollision->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::CombatOnOverlapBegin);
-    // CombatCollision->OnComponentEndOverlap.AddDynamic(this, &AWeapon::CombatOnOverlapEnd);
+    Super::BeginPlay();
+
+    CombatCollision->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::CombatOnOverlapBegin);
+    CombatCollision->OnComponentEndOverlap.AddDynamic(this, &AWeapon::CombatOnOverlapEnd);
+    
 
     CombatCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	CombatCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
@@ -41,15 +44,14 @@ void AWeapon::BeginPlay()
 
 void AWeapon::OnOverlapBegin(UPrimitiveComponent *OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
+    
     Super::OnOverlapBegin(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+    UE_LOG(LogTemp, Error, TEXT("Error"));
 
     if ((WeaponState == EWeaponState::EWS_Pickup) && OtherActor) {
         ACharacter2D* Main = Cast<ACharacter2D>(OtherActor);
         if(Main) {
-        Main->SetEquippedOverlapingItem(this);
-        Equip(Main);
-
-
+            Equip(Main);
         }
     }
 }
@@ -59,7 +61,7 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent *OverlappedComponent, AActor *Oth
     if ((WeaponState == EWeaponState::EWS_Pickup) && OtherActor) {
         ACharacter2D* Main = Cast<ACharacter2D>(OtherActor);
         if(Main) {
-        Main->SetEquippedOverlapingItem(nullptr);
+        Equip(Main);
         }
     }
 }
@@ -73,36 +75,25 @@ void AWeapon::Equip(ACharacter2D* Char)
         SkeletalMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Overlap);
         SkeletalMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
         SkeletalMesh->SetSimulatePhysics(false);
-
-     const USkeletalMeshSocket* RightHandSocket = Char->GetMesh()->GetSocketByName("Sprite0");
-        if(RightHandSocket) {
-            RightHandSocket->AttachActor(this, Char->GetMesh());
-            bRotate = false;
-            Char->SetEquippedWeapon(this);
-            Char->SetEquippedOverlapingItem(nullptr);
-            
-        } else {
-            UE_LOG(LogTemp, Error, TEXT("Error"));
-        }
     }
 }
 
-// void AWeapon::CombatOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) 
-// {
+void AWeapon::CombatOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) 
+{
     
-// }
+}
 
-// void AWeapon::CombatOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
-// {
+void AWeapon::CombatOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) 
+{
     
-// }
+}
 
 void AWeapon::ActivateCollision() 
 {
-    
+    CombatCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
 void AWeapon::DeactivateCollision() 
 {
-    
+    CombatCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
