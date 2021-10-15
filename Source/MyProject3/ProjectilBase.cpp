@@ -33,8 +33,6 @@ AProjectilBase::AProjectilBase()
 void AProjectilBase::BeginPlay()
 {
 	Super::BeginPlay();	
-	
-
 }
 
 
