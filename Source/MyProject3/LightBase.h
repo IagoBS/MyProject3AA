@@ -12,6 +12,7 @@
 class UStaticMeshComponent;
 class USpotLightComponent;
 class FSphere;
+class AMainPaperCharacter2D;
 
 UCLASS()
 class MYPROJECT3_API ALightBase : public AItem
@@ -59,7 +60,7 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Item | Character")
-	ACharacter2D *MyCharacter2D;
+	AMainPaperCharacter2D* MyCharacter2D;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TSubclassOf<UDamageType> DamageType;

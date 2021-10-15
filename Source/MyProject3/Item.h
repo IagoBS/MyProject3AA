@@ -17,7 +17,7 @@ class AActor;
 class USpotLightComponent;
 class ADirectionalLight;
 class USoundCue;
-class ACharacter2D;
+
 class UParticleSystem;
 class USoundBase;
 class AMyProject3GameModeBase;

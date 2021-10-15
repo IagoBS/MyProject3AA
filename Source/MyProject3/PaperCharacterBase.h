@@ -4,13 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
-#include "Character2D.generated.h"
+#include "PaperCharacterBase.generated.h"
 
 /**
  * 
  */
-class USpringArmComponent;
-class UCameraComponent;
 class UInputComponent;
 class UHealthComponent;
 class USceneComponent;
@@ -18,23 +16,15 @@ class AProjectilBase;
 class AMainPlayerController;
 class AItem;
 class PAPER2UPaperFlipbookComponent;
-
 UCLASS()
-class MYPROJECT3_API ACharacter2D : public APaperCharacter
+class MYPROJECT3_API APaperCharacterBase : public APaperCharacter
 {
 	GENERATED_BODY()
-public:
-	ACharacter2D();
+	public:
+	APaperCharacterBase();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	USpringArmComponent *SpringArm;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	UCameraComponent *FollowCamera;
-
-
-
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float MaxSpeed;
+	
+	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Projectil")
 	bool bHasCombatTarget;
@@ -44,43 +34,32 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Movement")
 	FVector CombatTargetLocation;
 
-	AMainPlayerController* PlayerControllerRef;
-private:
+	
+	private:
+
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent *ProjectileSpawnPoint;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AProjectilBase> ProjectileClass;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent *HealthComponent;
-	
 
-protected:
-	virtual void BeginPlay() override;
-public:
-	virtual void Tick(float DeltaSeconds);
-	virtual void SetupPlayerInputComponent(UInputComponent *PlayerInputComponent) override;
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase *DeathSound;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* DeathParticle;
+	public:
 	//pegar arma
-	void LMBDown();
-	void LMBUp();
+	void FireStart();
+	void FireStop();
 	
 	//Destruir ator
-	void HandleDestruction();
-
-private:
-	void MoveForward(float Value);
-	void MoveRight(float Value);
-	FVector CurrentVelocity;
-
-public:
-	bool bIsPlayerAlive = true;
-	bool GetIsPlayerAlive();
-	
-	
-
-
-	
+	virtual void HandleDestruction();
 
 };

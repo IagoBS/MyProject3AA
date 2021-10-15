@@ -22,7 +22,7 @@
 #include "MyProject3GameModeBase.h"
 #include "HealthComponent.h"
 #include "MyProject3GameModeBase.h"
-#include "Character2D.h"
+#include "MainPaperCharacter2D.h"
 // Sets default values
 AItem::AItem()
 {

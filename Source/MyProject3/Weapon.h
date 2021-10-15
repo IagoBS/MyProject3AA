@@ -7,7 +7,7 @@
 
 class USkeletalMeshComponent;
 class USoundCue;
-class ACharacter2D;
+class AMainPaperCharacter2D;
 class UBoxComponent;
 class AItem;
 
@@ -59,7 +59,7 @@ public:
 
 	virtual void OnOverlapEnd(UPrimitiveComponent *OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex) override;
 
-	void Equip(ACharacter2D* Char);
+	void Equip(AMainPaperCharacter2D* Char);
 
 	FORCEINLINE void SetWeaponState(EWeaponState State) { WeaponState = State; }
 	FORCEINLINE EWeaponState GetWeaponState() { return WeaponState; }

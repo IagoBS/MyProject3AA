@@ -9,7 +9,7 @@
 /**
  * 
  */
-class ACharacter2D;
+class AMainPaperCharacter2D;
 class AMainPlayerController;
 class AActor;
 
@@ -18,7 +18,7 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	private:
-	ACharacter2D* PlayerCharacter2D;
+	AMainPaperCharacter2D* PlayerCharacter2D;
 	// int32 Target = 0;
 
 	// int32 GetTargetCount();

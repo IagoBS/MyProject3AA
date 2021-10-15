@@ -3,7 +3,7 @@
 #include "MyProject3GameModeBase.h"
 #include "MainPlayerController.h"
 #include "Kismet/GameplayStatics.h"
-#include "Character2D.h"
+#include "MainPaperCharacter2D.h"
 #include "Item.h"
 
 void AMyProject3GameModeBase::BeginPlay()
@@ -28,7 +28,7 @@ void AMyProject3GameModeBase::ActorDied(AActor *DeadActor)
 
 void AMyProject3GameModeBase::HandleGameStart()
 {
-    PlayerCharacter2D = Cast<ACharacter2D>(UGameplayStatics::GetPlayerCharacter(this, 0));
+    PlayerCharacter2D = Cast<AMainPaperCharacter2D>(UGameplayStatics::GetPlayerCharacter(this, 0));
     PlayerControllerRef = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
     GameStart();
 

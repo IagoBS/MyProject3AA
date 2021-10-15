@@ -7,7 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/EngineTypes.h"
 #include "PaperCharacter.h"
-#include "Character2D.h"
+#include "MainPaperCharacter2D.h"
 #include "PaperCharacter.h"
 
 AWeapon::AWeapon()
@@ -49,7 +49,7 @@ void AWeapon::OnOverlapBegin(UPrimitiveComponent *OverlappedComponent, AActor *O
     UE_LOG(LogTemp, Error, TEXT("Error"));
 
     if ((WeaponState == EWeaponState::EWS_Pickup) && OtherActor) {
-        ACharacter2D* Main = Cast<ACharacter2D>(OtherActor);
+        AMainPaperCharacter2D* Main = Cast<AMainPaperCharacter2D>(OtherActor);
         if(Main) {
             Equip(Main);
         }
@@ -59,14 +59,14 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent *OverlappedComponent, AActor *Oth
 {
     Super::OnOverlapEnd(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
     if ((WeaponState == EWeaponState::EWS_Pickup) && OtherActor) {
-        ACharacter2D* Main = Cast<ACharacter2D>(OtherActor);
+        AMainPaperCharacter2D* Main = Cast<AMainPaperCharacter2D>(OtherActor);
         if(Main) {
         Equip(Main);
         }
     }
 }
 
-void AWeapon::Equip(ACharacter2D* Char) 
+void AWeapon::Equip(AMainPaperCharacter2D* Char) 
 {
     if(Char) {
 
