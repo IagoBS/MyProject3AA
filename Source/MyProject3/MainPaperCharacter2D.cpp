@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "MainPaperCharacter2D.h"
 
 #include "Camera/CameraComponent.h"
@@ -18,23 +17,23 @@
 #include "Weapon.h"
 #include "Engine/World.h"
 
-
 AMainPaperCharacter2D::AMainPaperCharacter2D()
 {
-    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
-    SpringArm->TargetArmLength = 600.f;
+	SpringArm->TargetArmLength = 600.f;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(SpringArm);
-    
-    CurrentVelocity = FVector(0.f);
-     MaxSpeed = 1000.f;
+
+	CurrentVelocity = FVector(0.f);
+	MaxSpeed = 1000.f;
 }
 
-void AMainPaperCharacter2D::BeginPlay()  {
-    Super::BeginPlay();
-    PlayerControllerRef = Cast<AMainPlayerController>(GetController());
+void AMainPaperCharacter2D::BeginPlay()
+{
+	Super::BeginPlay();
+	PlayerControllerRef = Cast<AMainPlayerController>(GetController());
 }
 
 void AMainPaperCharacter2D::Tick(float DeltaSeconds)
@@ -59,24 +58,43 @@ void AMainPaperCharacter2D::SetupPlayerInputComponent(class UInputComponent *Pla
 
 	PlayerInputComponent->BindAction(TEXT("LMB"), IE_Pressed, this, &APaperCharacterBase::FireStart);
 	PlayerInputComponent->BindAction(TEXT("LMB"), IE_Released, this, &APaperCharacterBase::FireStop);
-
 }
 
-void AMainPaperCharacter2D::MoveRight(float Value) {
-    CurrentVelocity.X = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
+void AMainPaperCharacter2D::MoveRight(float Value)
+{
+	CurrentVelocity.X = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
 }
-void AMainPaperCharacter2D::MoveForward(float Value) {
-    CurrentVelocity.Y = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
+void AMainPaperCharacter2D::MoveForward(float Value)
+{
+	CurrentVelocity.Y = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
 }
 
-
-
-void AMainPaperCharacter2D::HandleDestruction() {
-    bIsPlayerAlive = false;
+void AMainPaperCharacter2D::HandleDestruction()
+{
+	bIsPlayerAlive = false;
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
 }
 
-bool AMainPaperCharacter2D::GetIsPlayerAlive() {
-    return bIsPlayerAlive;
+bool AMainPaperCharacter2D::GetIsPlayerAlive()
+{
+	return bIsPlayerAlive;
+}
+void AMainPaperCharacter2D::SwitchLevel(FName LevelName)
+{
+	UWorld *World = GetWorld();
+	if (World)
+	{
+		FString CurrentLevel = World->GetMapName();
+		CurrentLevel.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+
+		FName CurrentLevelName(*CurrentLevel);
+		if (CurrentLevelName != LevelName)
+		{
+			FString Level = LevelName.ToString();
+			UE_LOG(LogTemp, Warning, TEXT("CurrentLevel: %s"), *CurrentLevel)
+			UE_LOG(LogTemp, Warning, TEXT("LevelName: %s"), *Level)
+			UGameplayStatics::OpenLevel(World, LevelName);
+		}
+	}
 }

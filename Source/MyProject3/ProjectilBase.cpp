@@ -26,7 +26,7 @@ AProjectilBase::AProjectilBase()
 	ProjectilMoviment->MaxSpeed = MovementSpeed;
 	
 
-	InitialLifeSpan = 3.0f;
+	InitialLifeSpan = 2.0f;
 }
 
 // Called when the game starts or when spawned
@@ -48,5 +48,7 @@ void AProjectilBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		if(LightBase && LightBase->LightComponent) {
 			LightBase->OffLight();
 		}
+		Destroy();
+		
 	}
 }

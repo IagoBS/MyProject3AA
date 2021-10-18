@@ -68,6 +68,7 @@ class MYPROJECT3_API AMainPaperCharacter2D : public APaperCharacterBase
 	
 	bool GetIsPlayerAlive();
 	bool bIsPlayerAlive = true;
+	void SwitchLevel(FName LevelName);
 
 	
 

@@ -52,7 +52,7 @@ void APaperCharacterBase::FireStart()
     if (ProjectileClass && bHasCombatTarget)
     {
         FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
-        FRotator SpawnRotation = GetControlRotation();
+        FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
         AProjectilBase *TemProjectile = GetWorld()->SpawnActor<AProjectilBase>(ProjectileClass, SpawnLocation, SpawnRotation);
         TemProjectile->SetOwner(this);
     }
@@ -60,4 +60,6 @@ void APaperCharacterBase::FireStart()
 void APaperCharacterBase::FireStop()
 {
     bHasCombatTarget = false;
+    
+
 }
