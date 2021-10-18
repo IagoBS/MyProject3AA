@@ -20,7 +20,7 @@ ALevelTransitionVolume::ALevelTransitionVolume()
 	Billboard = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"));
 	Billboard->SetupAttachment(GetRootComponent());
 
-	TransitionLevelName = "World'/Game/StarterContent/Maps/Advanced_Lighting.Advanced_Lighting'";
+	TransitionLevelName = "Demo1-2.Demo1-2";
 
 }
 
