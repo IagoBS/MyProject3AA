@@ -46,7 +46,7 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 	public:
 	
 	void HandleGameStart();
-	void SwitchLevel(FName LevelName);
+
 
 
 
