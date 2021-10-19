@@ -18,11 +18,13 @@ void AMyProject3GameModeBase::ActorDied(AActor *DeadActor)
     if (DeadActor == PlayerCharacter2D)
     {
         PlayerCharacter2D->HandleDestruction();
-        HandleGamerOver(false);
+        HandleGamerOver(true);
+        PlayerControllerRef = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
         if (PlayerControllerRef)
         {
             PlayerControllerRef->SetPlayerEnabledState(false);
         }
+
     }
 }
 

@@ -13,11 +13,15 @@ class MYPROJECT3_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-private:
+public:
+
 UPROPERTY(EditAnywhere, Category="Health")
 float DefaultHealth = 100.0f;
 UPROPERTY(EditAnywhere, Category="Health")
+
 float Health = 0.0f;
+
+private:
 AMyProject3GameModeBase* GameModeRef;
 
 

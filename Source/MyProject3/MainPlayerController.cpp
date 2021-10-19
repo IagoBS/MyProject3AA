@@ -16,6 +16,15 @@ if(HUDOverlayAsset) {
 HUDOverlay->AddToViewport();
 HUDOverlay->SetVisibility(ESlateVisibility::Visible);
 
+    if(WPauseMenu) {
+       	PauseMenu = CreateWidget<UUserWidget>(this, WPauseMenu);
+		if (PauseMenu)
+		{
+			PauseMenu->AddToViewport();
+			PauseMenu->SetVisibility(ESlateVisibility::Hidden);
+		}
+    }
+    
 }
 
 void AMainPlayerController::SetPlayerEnabledState(bool SetPlayerEnable) 

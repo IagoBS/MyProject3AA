@@ -18,6 +18,7 @@ class AProjectilBase;
 class AMainPlayerController;
 class AItem;
 class PAPER2UPaperFlipbookComponent;
+class AMyProject3GameModeBase;
 
 UCLASS()
 class MYPROJECT3_API AMainPaperCharacter2D : public APaperCharacterBase
@@ -60,7 +61,6 @@ class MYPROJECT3_API AMainPaperCharacter2D : public APaperCharacterBase
 
 
 	private:
-
 	void FireStart();
 	void FireStop();
 
@@ -70,6 +70,11 @@ class MYPROJECT3_API AMainPaperCharacter2D : public APaperCharacterBase
 	bool bIsPlayerAlive = true;
 	void SwitchLevel(FName LevelName);
 
-	
+	UFUNCTION(BlueprintCallable)
+	void SaveGame();
 
+	UFUNCTION(BlueprintCallable)
+	void LoadGame(bool LoadPosition);
+
+	AMyProject3GameModeBase* GameModeReferences;
 };

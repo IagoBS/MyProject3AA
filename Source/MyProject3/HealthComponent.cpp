@@ -3,6 +3,8 @@
 
 #include "HealthComponent.h"
 #include "MyProject3GameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/Actor.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
@@ -20,7 +22,8 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 	Health =  DefaultHealth;
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
-	// ...
+	GameModeRef = Cast<AMyProject3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
 	
 }
 

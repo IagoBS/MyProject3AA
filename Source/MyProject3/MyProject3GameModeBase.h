@@ -24,7 +24,6 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 	// int32 GetTargetCount();
 	AMainPlayerController* PlayerControllerRef;
 
-	void HandleGameStart();
 	void HandleGamerOver(bool PlayerWon);
 
 	public:
@@ -43,5 +42,12 @@ class MYPROJECT3_API AMyProject3GameModeBase : public AGameModeBase
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameOver(bool PlayerWon);
+
+	public:
+	
+	void HandleGameStart();
+	void SwitchLevel(FName LevelName);
+
+
 
 };

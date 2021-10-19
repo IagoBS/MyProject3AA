@@ -22,7 +22,11 @@ class MYPROJECT3_API AMainPlayerController : public APlayerController
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Controller | HUD")
 	UUserWidget* HUDOverlay;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+	TSubclassOf<UUserWidget> WPauseMenu;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Widgets")
+	UUserWidget* PauseMenu;
 
 	protected: 
 	virtual void BeginPlay() override;
